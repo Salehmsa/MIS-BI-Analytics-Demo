@@ -2,6 +2,8 @@
 
 # MIS Business Performance Dashboard — SQL Server + Power BI
 
+ **Live demo:** https://salehmsa.github.io/MIS-BI-Analytics-Demo/
+
 End-to-end BI project built for a **Data Analyst / BI Developer** role: a cleaned SQL Server layer, a Power BI star-schema model with 46 documented DAX measures, a five-page executive dashboard, row-level security, and a data-quality log.
 
 > **Synthetic data.** All data is generated for this portfolio project. "MIS" is a placeholder company; nothing here describes a real organisation.
