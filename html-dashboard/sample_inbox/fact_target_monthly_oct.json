@@ -1,0 +1,12 @@
+[
+ {
+  "branch_id": 1,
+  "month_start": "2026-10-01",
+  "target_net_revenue": 21000000
+ },
+ {
+  "branch_id": 2,
+  "month_start": "2026-10-01",
+  "target_net_revenue": 14000000
+ }
+]

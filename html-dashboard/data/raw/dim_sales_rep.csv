@@ -1,0 +1,17 @@
+﻿rep_id,rep_name,branch_id,hire_date
+1,Sales Rep 01,1,2020-11-02
+2,Sales Rep 02,1,2020-07-21
+3,Sales Rep 03,2,2021-10-12
+4,Sales Rep 04,2,2022-07-13
+5,Sales Rep 05,3,2021-03-08
+6,Sales Rep 06,3,2021-06-20
+7,Sales Rep 07,4,2020-09-22
+8,Sales Rep 08,4,2020-04-26
+9,Sales Rep 09,5,2022-12-17
+10,Sales Rep 10,5,2023-12-01
+11,Sales Rep 11,6,2020-10-01
+12,Sales Rep 12,6,2024-03-08
+13,Sales Rep 13,7,2022-06-10
+14,Sales Rep 14,7,2020-01-04
+15,Sales Rep 15,8,2021-03-16
+16,Sales Rep 16,8,2019-01-17

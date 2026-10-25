@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MIS Executive Performance Dashboard</title>
+<meta name="description" content="Bilingual (Arabic/English) executive dashboard for MIS: sales vs target, delivery, support, risks, with an automatic ingestion folder.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a class="skip" href="#main" id="skipLink">Skip to content</a>
+
+<header class="top">
+  <div class="brand">
+    <div class="logo" aria-hidden="true">MIS</div>
+    <div>
+      <h1 id="appTitle" data-i18n="title">MIS Executive Performance Dashboard</h1>
+      <p class="sub"><span data-i18n="subtitle"></span> · <span class="badge" data-i18n="synthetic"></span></p>
+    </div>
+  </div>
+  <div class="top-right">
+    <div class="meta" aria-live="polite">
+      <div><span data-i18n="asOf"></span>: <b id="asOf">–</b></div>
+      <div><span data-i18n="updated"></span>: <b id="updatedAt">–</b></div>
+      <div class="conn"><span class="dot" id="connDot"></span><span id="connText"></span></div>
+    </div>
+    <div class="btns">
+      <button id="langBtn" class="btn" type="button" aria-label="Switch language"></button>
+      <button id="printBtn" class="btn ghost" type="button" data-i18n="exportPdf"></button>
+    </div>
+  </div>
+</header>
+
+<section class="filters" aria-label="Filters">
+  <label>
+    <span data-i18n="period"></span>
+    <select id="fPreset">
+      <option value="12" data-i18n="last12"></option>
+      <option value="6" data-i18n="last6"></option>
+      <option value="3" data-i18n="last3"></option>
+      <option value="all" data-i18n="allTime"></option>
+      <option value="custom" id="optCustom">–</option>
+    </select>
+  </label>
+  <label><span data-i18n="from"></span><select id="fFrom"></select></label>
+  <label><span data-i18n="to"></span><select id="fTo"></select></label>
+  <label><span data-i18n="region"></span><select id="fRegion"></select></label>
+  <label><span data-i18n="branch"></span><select id="fBranch"></select></label>
+  <label><span data-i18n="category"></span><select id="fCategory"></select></label>
+  <button id="resetBtn" class="btn ghost" type="button" data-i18n="reset"></button>
+  <p class="note" id="catNote" data-i18n="catNote" hidden></p>
+</section>
+
+<nav class="tabs" role="tablist" aria-label="Sections">
+  <button role="tab" class="tab" data-tab="overview" aria-selected="true" data-i18n="tabOverview"></button>
+  <button role="tab" class="tab" data-tab="sales" aria-selected="false" data-i18n="tabSales"></button>
+  <button role="tab" class="tab" data-tab="delivery" aria-selected="false" data-i18n="tabDelivery"></button>
+  <button role="tab" class="tab" data-tab="support" aria-selected="false" data-i18n="tabSupport"></button>
+  <button role="tab" class="tab" data-tab="risks" aria-selected="false" data-i18n="tabRisks"></button>
+</nav>
+
+<main id="main">
+  <!-- OVERVIEW -->
+  <section class="panel" id="tab-overview" role="tabpanel">
+    <div class="card summary">
+      <h2 data-i18n="execSummary"></h2>
+      <ul id="summaryList"></ul>
+    </div>
+    <div id="kpis" class="kpis"></div>
+    <p class="note" data-i18n="thresholdsNote"></p>
+    <div class="grid two">
+      <div class="card"><h2 data-i18n="chRevTarget"></h2><div class="chart"><canvas id="cRevTarget" role="img"></canvas></div></div>
+      <div class="card"><h2 data-i18n="chMarginCat"></h2><div class="chart"><canvas id="cMarginCat" role="img"></canvas></div></div>
+    </div>
+    <div class="grid two mapscore">
+      <div class="card">
+        <div class="card-head"><h2 data-i18n="mapTitle"></h2>
+          <label class="inline"><span data-i18n="mapMetric"></span>
+            <select id="mapMetric">
+              <option value="attain" data-i18n="kpiAttain"></option>
+              <option value="gm" data-i18n="kpiMargin"></option>
+              <option value="onTime" data-i18n="kpiOnTime"></option>
+              <option value="sla" data-i18n="kpiSla"></option>
+              <option value="csat" data-i18n="kpiCsat"></option>
+            </select>
+          </label>
+        </div>
+        <div id="map" class="map" role="group"></div>
+      </div>
+      <div class="card">
+        <div class="card-head"><h2 data-i18n="scorecard"></h2><button id="csvBtn" class="btn small" type="button" data-i18n="exportCsv"></button></div>
+        <p class="note" data-i18n="clickDrill"></p>
+        <div class="table-wrap"><table id="scorecard" class="tbl"></table></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SALES -->
+  <section class="panel" id="tab-sales" role="tabpanel" hidden>
+    <div class="grid two">
+      <div class="card"><h2 data-i18n="chRevRegion"></h2><div class="chart"><canvas id="cRevRegion" role="img"></canvas></div></div>
+      <div class="card"><h2 data-i18n="chDiscount"></h2><div class="chart"><canvas id="cDiscount" role="img"></canvas></div></div>
+    </div>
+    <div class="card"><h2 data-i18n="chReps"></h2><div class="chart tall"><canvas id="cReps" role="img"></canvas></div></div>
+  </section>
+
+  <!-- DELIVERY -->
+  <section class="panel" id="tab-delivery" role="tabpanel" hidden>
+    <div id="kpisDelivery" class="kpis small"></div>
+    <div class="grid two">
+      <div class="card"><h2 data-i18n="chOnTime"></h2><div class="chart"><canvas id="cOnTime" role="img"></canvas></div></div>
+      <div class="card"><h2 data-i18n="chDays"></h2><div class="chart"><canvas id="cDays" role="img"></canvas></div></div>
+    </div>
+    <div class="card"><h2 data-i18n="heatOnTime"></h2><div class="table-wrap"><table id="heatOnTime" class="tbl heat"></table></div></div>
+  </section>
+
+  <!-- SUPPORT -->
+  <section class="panel" id="tab-support" role="tabpanel" hidden>
+    <div id="kpisSupport" class="kpis small"></div>
+    <div class="grid two">
+      <div class="card"><h2 data-i18n="chSla"></h2><div class="chart"><canvas id="cSla" role="img"></canvas></div></div>
+      <div class="card"><h2 data-i18n="chCsat"></h2><div class="chart"><canvas id="cCsat" role="img"></canvas></div></div>
+    </div>
+    <div class="grid two">
+      <div class="card"><h2 data-i18n="chTicketCat"></h2><div class="chart"><canvas id="cTicketCat" role="img"></canvas></div></div>
+      <div class="card"><h2 data-i18n="chPriority"></h2><div class="chart"><canvas id="cPriority" role="img"></canvas></div></div>
+    </div>
+  </section>
+
+  <!-- RISKS & DATA -->
+  <section class="panel" id="tab-risks" role="tabpanel" hidden>
+    <div class="card">
+      <div class="card-head"><h2 data-i18n="riskHeat"></h2></div>
+      <div class="table-wrap"><table id="riskHeat" class="tbl heat"></table></div>
+    </div>
+    <div class="card">
+      <div class="card-head"><h2 data-i18n="riskRegister"></h2><button id="riskToggle" class="btn small" type="button"></button></div>
+      <p class="note" id="riskNote"></p>
+      <p class="note" id="riskCount"></p>
+      <div class="table-wrap"><table id="riskTable" class="tbl"></table></div>
+    </div>
+    <div class="grid two">
+      <div class="card"><h2 data-i18n="dqTitle"></h2><div class="table-wrap"><table id="dqTable" class="tbl"></table></div></div>
+      <div class="card"><h2 data-i18n="ingestTitle"></h2><p class="note" data-i18n="inboxHelp"></p><div class="table-wrap"><table id="ingestTable" class="tbl"></table></div></div>
+    </div>
+  </section>
+</main>
+
+<!-- drill-down drawer -->
+<div id="scrim" class="scrim" hidden></div>
+<aside id="drawer" class="drawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle" hidden>
+  <div class="drawer-head"><h2 id="drawerTitle"></h2><button id="drawerClose" class="btn small" type="button" data-i18n="close"></button></div>
+  <div id="drawerKpis" class="kpis small"></div>
+  <div class="card flat"><h3 data-i18n="monthly"></h3><div class="chart short"><canvas id="cDrillMonthly" role="img"></canvas></div></div>
+  <div class="card flat"><h3 data-i18n="mix"></h3><div class="chart short"><canvas id="cDrillMix" role="img"></canvas></div></div>
+</aside>
+
+<script src="vendor/chart.umd.js"></script>
+<script src="js/config.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/calc.js"></script>
+<script src="js/sample-data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

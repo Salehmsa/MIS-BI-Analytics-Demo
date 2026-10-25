@@ -1,0 +1,13 @@
+﻿subcategory_id,subcategory_name,category_id
+1,Laptops,1
+2,Servers,1
+3,Printers,1
+4,Switches,2
+5,Routers,2
+6,Wireless,2
+7,Productivity,3
+8,Security,3
+9,Database,3
+10,Support Contracts,4
+11,Cloud Hosting,4
+12,Consulting,4

@@ -1,0 +1,26 @@
+{
+  "name": "mis-exec-dashboard",
+  "version": "1.0.0",
+  "description": "Bilingual (AR/EN) MIS executive dashboard with an automatic ingestion folder",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "start": "node server/ingest.js",
+    "build:sample": "node tools/build-sample.js",
+    "test": "node tests/verify_totals.js && node tests/ingest_test.js && node tests/ui_test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "chart.js": "^4.4.7",
+    "exceljs": "^4.4.0",
+    "papaparse": "^5.4.1"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

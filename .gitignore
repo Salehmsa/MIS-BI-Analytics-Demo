@@ -1,0 +1,9 @@
+node_modules/
+store/
+html-dashboard/processed/
+html-dashboard/rejected/
+html-dashboard/inbox/*
+!html-dashboard/inbox/.gitkeep
+*.tmp
+.DS_Store
+Thumbs.db
